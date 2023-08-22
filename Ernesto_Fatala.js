@@ -95,7 +95,7 @@ function mostrarProductosPorProveedor(proveedor, productosArray) {
 //array de compras al proveedor;
 let arrayFactura = [];
 let arrayDeFacturas = [];
-let arrayCompras= [];
+let arrayCompras = [];
 
 //Funcion para crear un string completo con la factura realizada para luego ser guardado en el arrayDeFacturas
 function concatenarArrayEnUnString(numero, lista) {
@@ -179,10 +179,10 @@ function menuVentas() {
 }
 
 function menuCompras() {
-    const opcion = prompt("Elija una de las siguientes opciones\n1)Listar Proveedores\n2)Cargar productos para la compra\n3)Quitar producto de la compra\n4)Confirmar la compra\n5)Volver al menu principal");
     let producto;
     let banderaCompras = true;
     while (banderaCompras) {
+        const opcion = prompt("Elija una de las siguientes opciones\n1)Listar Proveedores\n2)Cargar productos para la compra\n3)Quitar producto de la compra\n4)Confirmar la compra\n5)Volver al menu principal");
         switch (opcion) {
             case '1':
                 let pedirProveedor = prompt("Ingrese el nombre del proveedor para ver sus articulos");
@@ -219,7 +219,7 @@ function menuCompras() {
             case '4':
                 break;
             case '5':
-                banderaCompras=false;
+                banderaCompras = false;
                 menuPrincipal();
                 break;
             default:
