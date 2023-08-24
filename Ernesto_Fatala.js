@@ -9,13 +9,16 @@ class Producto {
         this.stock = stock;
     }
     sumarIva() {
-        this.precio * 1.21;
+        this.precio = Math.ceil(this.precio * 1.21);
     }
     mostrarProducto() {
         return `Codigo ${this.codigo} El producto ${this.nombre} con el del proveedor ${this.proveedor} tiene un valor final de ${this.precio} y hay en stock ${this.stock} productos`;
     }
     disminuirStock() {
         this.stock--;
+    }
+    sumarStock() {
+        this.stock++;
     }
 }
 
@@ -59,11 +62,18 @@ function mostrarListaDeProductos(productos) {
     alert("Lista de Productos:\n" + listaProductos);
 }
 
+function mostrarListaDeProductosReturn(productos) {
+    let listaProductos = "";
+    productos.forEach(producto => {
+        listaProductos += producto.mostrarProducto() + "<br>";
+    });
+    return listaProductos;
+}
+
 //Funcion para buscar un producto en un array, retornarlo si este exciste segun el parametro a igualar
 function buscarProductoPorCodigo(codigo, productos) {
     const producto = productos.find(producto => producto.codigo === codigo);
     if (producto) {
-        alert("Producto encontrado");
         return producto;
     } else {
         alert("Producto no encontrado");
@@ -98,13 +108,23 @@ let arrayDeFacturas = [];
 let arrayCompras = [];
 
 //Funcion para crear un string completo con la factura realizada para luego ser guardado en el arrayDeFacturas
-function concatenarArrayEnUnString(numero, lista) {
-    let encabezado = "factura numero " + numero + "\n";
+function concatenarArrayEnUnString(numero, lista, totalSuma) {
+    let encabezado = "Factura numero " + numero + "\n";
     let listaProductos = "";
     lista.forEach(producto => {
         listaProductos += producto.mostrarProducto() + "\n";
     });
-    return encabezado + listaProductos;
+    totalSuma ="El valor total de la factura es : "+totalSuma+" pesos\n";
+    return encabezado + listaProductos + totalSuma;
+}
+
+//Funcion para sumar el total de una factura
+function sumarPrecioProductosSeleccionados(productos) {
+    let totalSuma = 0;
+    for (const producto of productos) {
+        totalSuma += producto.precio;
+    }
+    return totalSuma;
 }
 
 //Funcion del menu de Ventas
@@ -119,13 +139,18 @@ function menuVentas() {
                 mostrarListaDeProductos(arrayProductos);
                 break;
             case '2':
-                //En este caso se cargan productos en la factura, pidiendo si codigo, agrgarlos al arrayFactura y validando que existan
+                //En este caso se cargan productos en la factura, pidiendo si codigo, agregarlos al arrayFactura y validando que existan
+                //***** ACA TENGO UN PROBLEMA
+                //yo quiero modificar el precio del objeto solamente en el arrayFactura
+                //pero me termina cambiando el precio en el array de productos....hace horas que estoy con esto y no se como solucionarlo
+                //ni entiendo por que me cambia en el objeto de otro array si estoy tomando el objeto por separado
                 let codigo = parseInt(prompt("Indique el codigo para cargar el producto en la factura"));
                 producto = buscarProductoPorCodigo(codigo, arrayProductos);
                 if (producto != null) {
-                    producto.sumarIva();
                     producto.disminuirStock();
                     agregarElementoALaLista(producto, arrayFactura);
+                    let productoEnVenta = buscarProductoPorCodigo(codigo, arrayFactura);
+                    productoEnVenta.sumarIva();
                 }
                 if (arrayFactura.length === 0) {
                     alert("La factura esta vacia");
@@ -144,6 +169,8 @@ function menuVentas() {
                     producto = buscarProductoPorCodigo(codigo, arrayFactura);
                     if (eliminarProductoDeLaLista(arrayFactura, producto) == true) {
                         alert("El producto se quito de la factura");
+                        let productoQueNoDisminuyeStock = buscarProductoPorCodigo(codigo, arrayProductos);
+                        productoQueNoDisminuyeStock.sumarStock();
                         mostrarListaDeProductos(arrayFactura);
                     } else {
                         alert("Hubo un error");
@@ -153,14 +180,15 @@ function menuVentas() {
                 break;
             case '4':
                 //En este caso se confirma la factura, se genera un string con la misma completa
-                //se utiliza un contador para darle numero a la factura y se guarda en el arraDeFacturas
-                //luego se muestran las facturas emitidas y se limpia el arrayFactura, osea la factura emitida
+                //se utiliza un contador para darle numero a la factura y se guarda en el arrayDeFacturas
+                //ademas se llama a un funcion para sumar el precio de los productos en un total de factura
+                //luego se muestran las facturas emitidas y se limpia el arrayFactura
                 if (arrayFactura.length === 0) {
                     alert("La factura esta vacia");
                 } else {
                     numeroFactura++;
                     let stringFactura = "";
-                    stringFactura = concatenarArrayEnUnString(numeroFactura, arrayFactura);
+                    stringFactura = concatenarArrayEnUnString(numeroFactura, arrayFactura,sumarPrecioProductosSeleccionados(arrayFactura));
                     agregarElementoALaLista(stringFactura, arrayDeFacturas);
                     alert(arrayDeFacturas);
                     arrayFactura.length = 0;
@@ -169,7 +197,7 @@ function menuVentas() {
             case '5':
                 //opcion para volver al menu principal
                 banderaVentas = false;
-                menuPrincipal();
+                //menuPrincipal();
                 break;
             default:
                 alert("Opcion incorrecta");
@@ -178,6 +206,8 @@ function menuVentas() {
     }
 }
 
+//Funcion que se encarga de hacer las compras de los productos ya cargados en la lista, sumar al stock del array productos
+//Funcionamiento muy similar a la funcion de ventas.
 function menuCompras() {
     let producto;
     let banderaCompras = true;
@@ -189,11 +219,13 @@ function menuCompras() {
                 mostrarProductosPorProveedor(pedirProveedor, arrayProductos);
                 break;
             case '2':
+                let codigo = parseInt(prompt("Indique el codigo del producto para comprar al proveedor"));
                 producto = buscarProductoPorCodigo(codigo, arrayProductos);
                 if (producto != null) {
-                    producto.sumarIva();
-                    producto.disminuirStock();
+                    producto.sumarStock();
                     agregarElementoALaLista(producto, arrayCompras);
+                    let productoAComprar = buscarProductoPorCodigo(codigo, arrayCompras);
+                    productoAComprar.sumarIva();
                 }
                 if (arrayCompras.length === 0) {
                     alert("La factura esta vacia");
@@ -206,10 +238,12 @@ function menuCompras() {
                     alert("La factura esta vacia");
                 } else {
                     mostrarListaDeProductos(arrayCompras);
-                    let codigo = parseInt(prompt("Indique el codigo para quitar el producto en la factura"));
+                    let codigo = parseInt(prompt("Indique el codigo para quitar el producto en la compra"));
                     producto = buscarProductoPorCodigo(codigo, arrayCompras);
                     if (eliminarProductoDeLaLista(arrayCompras, producto) == true) {
                         alert("El producto se quito de la factura");
+                        let productoQueNoSumaStock = buscarProductoPorCodigo(codigo, arrayProductos);
+                        productoQueNoSumaStock.disminuirStock();
                         mostrarListaDeProductos(arrayCompras);
                     } else {
                         alert("Hubo un error");
@@ -217,10 +251,11 @@ function menuCompras() {
                 }
                 break;
             case '4':
+                mostrarListaDeProductos(arrayCompras);
                 break;
             case '5':
                 banderaCompras = false;
-                menuPrincipal();
+                //menuPrincipal();
                 break;
             default:
                 alert("Opcion incorrecta");
@@ -248,18 +283,17 @@ function menuModificacion() {
             break;
         case '2':
             //se quita un producto de la lista
-            codigo = prompt("Codigo del producto");
+            codigo = parseInt(prompt("Codigo del producto"));
             productoAQuitar = buscarProductoPorCodigo(codigo, arrayProductos);
             if (eliminarProductoDeLaLista(arrayProductos, productoAQuitar) == true) {
                 alert("El producto se quito de la factura");
-                mostrarListaDeProductos(arrayProductos);
             } else {
                 alert("Hubo un error");
             }
             break;
         case '3':
             //se vuelve al menu principal
-            menuPrincipal();
+            //menuPrincipal();
             break;
         default:
             alert("Opcion incorrecta");
@@ -268,29 +302,35 @@ function menuModificacion() {
 }
 
 //Funcion con el menu principal
-function menuPrincipal() {
-    let bandera = true;
-    while (bandera) {
-        const opcion = prompt("Elija una de las siguientes opciones\n1)Menu de ventas\n2)Menu de compras\n3)Menu de modificacion\n4)Salir");
-        switch (opcion) {
-            case '1':
-                menuVentas();
-                break;
-            case '2':
-                menuCompras();
-                break;
-            case '3':
-                menuModificacion();
-                break;
-            case '4':
-                bandera = false;
-                break;
-            default:
-                alert("Opcion incorrecta");
-                break;
-        }
+function menuPrincipal(opcion) {
+    //let bandera = true;
+    //while (bandera) {
+    //const opcion = prompt("Elija una de las siguientes opciones\n1)Menu de ventas\n2)Menu de compras\n3)Menu de modificacion\n4)Salir");
+    switch (opcion) {
+        case '1':
+            menuVentas();
+            break;
+        case '2':
+            menuCompras();
+            break;
+        case '3':
+            menuModificacion();
+            break;
+        case '4':
+            window.close();
+            //bandera = false;
+            break;
+        default:
+            alert("Opcion incorrecta");
+            break;
     }
+    //}
 }
 
 //Arranca el programa
-menuPrincipal();
+//menuPrincipal();
+
+//Funcion para mostrar la lista de productos en el HTML
+function mostrar() {
+    document.getElementById("listaProductos").innerHTML = mostrarListaDeProductosReturn(arrayProductos);
+}
