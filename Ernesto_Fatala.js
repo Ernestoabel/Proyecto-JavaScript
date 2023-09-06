@@ -14,6 +14,9 @@ class Producto {
     mostrarProducto() {
         return `Codigo ${this.codigo} El producto ${this.nombre} con el del proveedor ${this.proveedor} tiene un valor final de ${this.precio} y hay en stock ${this.stock} productos`;
     }
+    mostrarProductoEnFactura() {
+        return `El producto ${this.nombre} con el del proveedor ${this.proveedor} tiene un valor final de ${this.precio}`;
+    }
     disminuirStock() {
         this.stock--;
     }
@@ -24,16 +27,15 @@ class Producto {
 
 //Hardcodeo de productos en un array principal de productos
 let arrayProductos = [
-    new Producto(100, "Celular", "Proveedor 1", 100, 50),
-    new Producto(101, "Televisor", "Proveedor 2", 150, 30),
-    new Producto(102, "Consola", "Proveedor 1", 200, 20),
-    new Producto(103, "Telefono", "Proveedor 3", 80, 10),
-    new Producto(104, "Sillon", "Proveedor 2", 120, 15),
-    new Producto(105, "Heladera", "Proveedor 3", 300, 5),
-    new Producto(106, "Estufa", "Proveedor 1", 250, 8),
-    new Producto(107, "Mesa", "Proveedor 2", 180, 25),
-    new Producto(108, "Monitor", "Proveedor 3", 90, 40),
-    new Producto(109, "Escritorio", "Proveedor 1", 220, 18),
+    new Producto(100, "Lenovo tablet", "Lenovo", 100, 50),
+    new Producto(101, "Lenovo all in one", "Lenovo", 150, 30),
+    new Producto(102, "Lenovo notebook", "Lenovo", 200, 20),
+    new Producto(103, "Samsung celular", "Samsung", 80, 10),
+    new Producto(104, "Samsung tablet", "Samsung", 120, 15),
+    new Producto(105, "Samsung heladera", "Samsung", 300, 5),
+    new Producto(106, "Sony reproductor", "Sony", 250, 8),
+    new Producto(107, "Sony joystick", "Sony", 180, 25),
+    new Producto(108, "Sony camara", "Sony", 90, 40),
 ];
 
 //Funcion para agregar elementos a una lista
@@ -114,7 +116,7 @@ function concatenarArrayEnUnString(numero, lista, totalSuma) {
     lista.forEach(producto => {
         listaProductos += producto.mostrarProducto() + "\n";
     });
-    totalSuma ="El valor total de la factura es : "+totalSuma+" pesos\n";
+    totalSuma = "El valor total de la factura es : " + totalSuma + " pesos\n";
     return encabezado + listaProductos + totalSuma;
 }
 
@@ -188,7 +190,7 @@ function menuVentas() {
                 } else {
                     numeroFactura++;
                     let stringFactura = "";
-                    stringFactura = concatenarArrayEnUnString(numeroFactura, arrayFactura,sumarPrecioProductosSeleccionados(arrayFactura));
+                    stringFactura = concatenarArrayEnUnString(numeroFactura, arrayFactura, sumarPrecioProductosSeleccionados(arrayFactura));
                     agregarElementoALaLista(stringFactura, arrayDeFacturas);
                     alert(arrayDeFacturas);
                     arrayFactura.length = 0;
@@ -334,3 +336,140 @@ function menuPrincipal(opcion) {
 function mostrar() {
     document.getElementById("listaProductos").innerHTML = mostrarListaDeProductosReturn(arrayProductos);
 }
+
+
+const btnVentas = document.getElementById("btnVentas");
+const marcas = document.getElementById("marcas");
+const productosLenovo = document.getElementById("productosLenovo");
+const productosSamsung = document.getElementById("productosSamsung");
+const productosSony = document.getElementById("productosSony");
+const logos = document.querySelectorAll(".image");
+const productoElegido = document.querySelectorAll(".producto");
+let productoSeleccionado = "";
+const ultimoProducto = localStorage.getItem("ultimoProducto");
+const ultimoProductoImagen = localStorage.getItem("ultimoProductoImagen");
+
+//const carrito = document.getElementById("carrito");
+
+btnVentas.addEventListener("click", function () {
+    if (marcas.classList.contains("hidden")) {
+        marcas.classList.remove("hidden");
+        productosLenovo.classList.add("hidden");
+        productosSamsung.classList.add("hidden");
+        productosSony.classList.add("hidden");
+    } else {
+        marcas.classList.add("hidden");
+    }
+});
+
+logos.forEach(logo => {
+    logo.addEventListener("click", function () {
+        marcas.classList.add("hidden");
+        if (logo.alt === "Logo de Lenovo") {
+            productosLenovo.classList.remove("hidden");
+            productosSamsung.classList.add("hidden");
+            productosSony.classList.add("hidden");
+        } else if (logo.alt === "Logo de Samsung") {
+            productosLenovo.classList.add("hidden");
+            productosSamsung.classList.remove("hidden");
+            productosSony.classList.add("hidden");
+        } else if (logo.alt === "Logo de Sony") {
+            productosLenovo.classList.add("hidden");
+            productosSamsung.classList.add("hidden");
+            productosSony.classList.remove("hidden");
+        }
+    });
+});
+
+productoElegido.forEach(imagen => {
+    imagen.addEventListener('click', () => {
+        const producto = buscarProductoPorCodigo(parseInt(imagen.alt), arrayProductos);
+        producto.disminuirStock();
+        agregarElementoALaLista(producto, arrayFactura);
+        actualizarCarrito();
+        productoSeleccionado = `El ultimo producto visto es ${producto.nombre}`;
+        localStorage.setItem("ultimoProducto", productoSeleccionado);
+        localStorage.setItem("ultimoProductoImagen", imagen.alt);
+    });
+});
+/*
+function actualizarCarrito() {
+    const carritoElement = document.getElementById("carrito");
+    carritoElement.innerHTML = "";
+    const sumaTotalCarrito = sumarPrecioProductosSeleccionados(arrayFactura);
+
+    arrayFactura.forEach((producto, index) => {
+        const li = document.createElement("li");
+        li.textContent = producto.mostrarProductoEnFactura();
+        carritoElement.appendChild(li);
+
+        if (index === arrayFactura.length - 1) {
+            const liDos = document.createElement("liDos");
+            liDos.textContent = `\nLa suma de la factura hasta ahora es ${sumaTotalCarrito}`;
+            carritoElement.appendChild(liDos);
+        }
+    });
+}*/
+
+function actualizarCarrito() {
+    const carritoElement = document.getElementById("carrito");
+    carritoElement.innerHTML = ""; // Limpia el contenido actual del carrito
+
+    const sumaTotalCarrito = sumarPrecioProductosSeleccionados(arrayFactura);
+
+    arrayFactura.forEach((producto, index) => {
+        const li = document.createElement("li");
+        li.textContent = producto.mostrarProductoEnFactura();
+
+        const botonEliminar = document.createElement("button");
+        botonEliminar.textContent = "Eliminar";
+        botonEliminar.setAttribute("data-producto-id", producto.codigo);
+
+        botonEliminar.addEventListener("click", function () {
+            const productoId = this.getAttribute("data-producto-id");
+            const productoAEliminar = arrayFactura.find(producto => producto.codigo === parseInt(productoId));
+            if (productoAEliminar) {
+                const indice = arrayFactura.indexOf(productoAEliminar);
+                if (indice !== -1) {
+                    arrayFactura.splice(indice, 1);
+
+                    actualizarCarrito();
+                }
+            }
+        });
+        li.appendChild(botonEliminar);
+        carritoElement.appendChild(li);
+
+        if (index === arrayFactura.length - 1) {
+            const liTotal = document.createElement("li");
+            liTotal.textContent = `La suma de la factura hasta ahora es ${sumaTotalCarrito}`;
+            carritoElement.appendChild(liTotal);
+        }
+    });
+}
+
+if (ultimoProductoImagen && ultimoProducto) {
+    const ultimoProductoElement = document.getElementById("ultimoProducto");
+    ultimoProductoElement.textContent = ultimoProducto;
+
+    const imagenesProductos = document.querySelectorAll(".producto");
+    let imagenUltimoProductoSrc = "";
+
+    imagenesProductos.forEach(imagen => {
+        if (imagen.alt === ultimoProductoImagen) {
+            imagenUltimoProductoSrc = imagen.src;
+        }
+    });
+
+    //aca esta el problema se enlaza en linea 130 del html
+    const imagenUltimoProductoElement = document.getElementById("imagenUltimoProducto");
+    alert(imagenUltimoProductoSrc);
+    imagenUltimoProductoElement.src = imagenUltimoProductoSrc;
+}
+
+
+
+
+
+
+

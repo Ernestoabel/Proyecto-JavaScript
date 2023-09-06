@@ -1,0 +1,45 @@
+.hidden {
+    display: none !important;
+}
+
+#ultimoProducto {
+    text-align: center;
+}
+
+
+#imagenUltimoProducto {
+    width: 200px;
+    height: 150px; 
+    background-size: cover; 
+    background-position: center center; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    margin: 10px auto; 
+}
+
+#carrito {
+    list-style: none; 
+    padding: 0; 
+}
+
+
+#carrito li {
+    border: 1px solid #ccc; 
+    padding: 10px; 
+    margin: 5px 0; 
+    display: flex; 
+    justify-content: space-between;
+    align-items: center; 
+}
+
+.eliminar {
+    background-color: #ff0000; 
+    color: #fff; 
+    border: none; 
+    padding: 5px 10px; 
+    cursor: pointer; 
+}
+
+.eliminar:hover {
+    background-color: #cc0000;
+}
