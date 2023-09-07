@@ -36,6 +36,7 @@
                             height="150">
                     </div>
                 </div>
+                <hr>
                 <div class="row justify-content-center hidden" id="productosLenovo">
                     <div class="col-md-4 text-center">
                         <p>Tablet</p>
@@ -53,6 +54,7 @@
                             height="150">
                     </div>
                 </div>
+                <hr>
                 <div class="row justify-content-center hidden" id="productosSamsung">
                     <div class="col-md-4 text-center">
                         <p>Celular</p>
@@ -70,6 +72,7 @@
                             height="150">
                     </div>
                 </div>
+                <hr>
                 <div class="row justify-content-center hidden" id="productosSony">
                     <div class="col-md-4 text-center">
                         <p>Reproductor</p>
@@ -87,6 +90,7 @@
                             height="150">
                     </div>
                 </div>
+                <hr>
                 <div class="row justify-content-center">
                     <div class="col-md-12 text-center">
                         <h2>Carrito de Compras</h2>
@@ -115,8 +119,9 @@
         <hr>
         <div class="row justify-content-center">
             <div class="col-md-12 text-center">
-                <button onclick="mostrar()" type="button" class="btn btn-danger" id="boton">Mostrar lista</button>
-                <p id="listaProductos"></p>
+                <button id="mostrarProductosBtn">Mostrar Productos</button>
+                <div id="listaProductos" class="hidden">
+                </div>
             </div>
         </div>
         <hr>
@@ -130,7 +135,7 @@
         <div class="col-md-12 text-center">
             <h2>Último producto cliqueado en la sesion anterior</h2>
             <p id="ultimoProducto">
-                <img id="imagenUltimoProducto" src="" alt="Último Producto">
+                <div id="miDiv" ></div>
                 <span id="nombreUltimoProducto"></span>
             </p>
         </div>

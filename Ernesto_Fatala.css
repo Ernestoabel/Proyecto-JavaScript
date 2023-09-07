@@ -2,19 +2,18 @@
     display: none !important;
 }
 
+#btnVentas {
+    background-color: red;
+}
+
 #ultimoProducto {
     text-align: center;
 }
 
 
-#imagenUltimoProducto {
+.imagenUltimoProducto {
     width: 200px;
-    height: 150px; 
-    background-size: cover; 
-    background-position: center center; 
-    border: 1px solid #ccc; 
-    border-radius: 5px; 
-    margin: 10px auto; 
+    height: 150px;
 }
 
 #carrito {
@@ -42,4 +41,21 @@
 
 .eliminar:hover {
     background-color: #cc0000;
+}
+
+#listaProductos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; 
+}
+
+#listaProductos li {
+    font-weight: bold;
+    color: #333; 
+    margin: 5px 0;
+}
+
+.imagenEnLista {
+    width: 200px;
+    height: 150px;
 }
