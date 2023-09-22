@@ -145,7 +145,7 @@ function buscarProductoPorCodigo(codigo, productos) {
     if (producto) {
         return producto.copiar();
     } else {
-        alert("Producto no encontrado");
+        mensaje.innerHTML = "Producto no encontrado";
     }
 }
 
@@ -479,13 +479,15 @@ btnModificarLista.addEventListener("click", () => {
 function mostrarFormularioABM(contenedor) {
     contenedor.innerHTML =
         `
-    <form id="form">
+    <form id="form" action="#" method="post">
+    <div class="allrequired">
         <input name="codigo" id="codigo" type="text" class="mb-1" placeholder="Codigo" />
         <input name="descripcion" id="descripcion"  type="text" class="mb-1 mt-4" placeholder="Descripcion" />
         <input name="proveedor" id="proveedor" type="text" class="mb-1" placeholder="Proveedor" />
         <input name="precio" id="precio" type="text" class="mb-1" placeholder="Precio" />
         <input name="stock" id="stock" type="text" class="mb-1" placeholder="Stock" />
         <input name="imagen" id="imagen" type="text" class="mb-1" placeholder="Ruta de imagen" />
+    </div>
     </form>
     `
 }
@@ -507,6 +509,7 @@ botonAgregar.addEventListener("click", () => {
     imagen = document.getElementById("imagen").value;
     const producto = new Producto(codigo, descripcion, proveedor, precio, stock, imagen);
     agregarElementoALaLista(producto, arrayProductos);
+    enviarDatosALaAPI(producto);
     console.log(arrayProductos);
     mensaje.innerHTML = "Se cargo el producto";
     limpiarFormulario()
@@ -551,7 +554,7 @@ botonEliminar.addEventListener("click", () => {
     limpiarFormulario()
 });
 
-function limpiarFormulario(){
+function limpiarFormulario() {
     document.getElementById("codigo").value = "";
     document.getElementById("descripcion").value = "";
     document.getElementById("proveedor").value = "";
@@ -593,6 +596,29 @@ const enviarDatosALaAPI = async () => {
 
 enviarDatosALaAPI();
 */
+
+const enviarDatosALaAPI = async (producto) => {
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(producto)
+        });
+
+        if (!response.ok) {
+            throw new Error('Error al enviar datos a la API');
+        }
+
+        const data = await response.json();
+        console.log('Datos enviados a la API:', data);
+
+    } catch (error) {
+        console.error('Error:', error.message);
+    }
+
+};
 
 //funciones para obtener los datos de la api
 const obtenerDatosDeAPI = async () => {

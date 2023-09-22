@@ -184,48 +184,47 @@
     </div>
     <div class="row justify-content-center">
         <div class="col-md-12 text-center">
-            <form action="#" method="post">
-                <div id="contenedorFormulario"></div>
-                <form action="#" method="post" class="wf-form">
-                    <fieldset>
-                        <legend>Información de la factura</legend>
+            <div id="contenedorFormulario"></div>
+            <form action="#" method="post" class="wf-form">
+                <fieldset>
+                    <legend>Información de la factura</legend>
 
-                        <label for="inscripcion">Inscripcion:</label>
-                        <select id="inscripcion" class="switch-datos">
-                            <option value="">Seleciona una opción...</option>
-                            <option value="1">Consumidor final</option>
-                            <option value="2">Monotributo</option>
-                            <option value="3">Responsable inscripto</option>
-                            <option value="4">Excento</option>
-                        </select><br />
+                    <label for="inscripcion">Inscripcion:</label>
+                    <select id="inscripcion" class="switch-datos">
+                        <option value="">Seleciona una opción...</option>
+                        <option value="1">Consumidor final</option>
+                        <option value="2">Monotributo</option>
+                        <option value="3">Responsable inscripto</option>
+                        <option value="4">Excento</option>
+                    </select><br />
 
-                        <div class="offstate-datos opcion-2 opcion-3 opcion-4">
-                            <label for="nombre">Razon social: </label>
-                            <input type="text" id="razon" /><br>
-                            <label for="apellido">Direccion: </label>
-                            <input type="text" id="direccion" /><br>
-                            <label for="apellido">Cuit: </label>
-                            <input type="text" id="cuit" /><br>
-                        </div>
+                    <div class="offstate-datos opcion-2 opcion-3 opcion-4">
+                        <label for="nombre">Razon social: </label>
+                        <input type="text" id="razon" /><br>
+                        <label for="apellido">Direccion: </label>
+                        <input type="text" id="direccion" /><br>
+                        <label for="apellido">Cuit: </label>
+                        <input type="text" id="cuit" /><br>
+                    </div>
 
-                        <label for="pago">Seleccion:</label>
-                        <select id="pago" class="switch-datos">
-                            <option value="">Modo de pago</option>
-                            <option value="a">Efectivo</option>
-                            <option value="b">Tarjeta</option>
-                        </select><br />
+                    <label for="pago">Seleccion:</label>
+                    <select id="pago" class="switch-datos">
+                        <option value="">Modo de pago</option>
+                        <option value="a">Efectivo</option>
+                        <option value="b">Tarjeta</option>
+                    </select><br />
 
-                        <div class="offstate-datos opcion-b">
-                            <label for="activar">Quiere dejarnos sus datos de la tarjeta</label><br>
-                            <label for="tarjeta">Tarjeta: </label>
-                            <input type="text" id="tarjeta" /><br>
-                            <label for="fecha-exp">Fecha Expiración: </label>
-                            <input type="text" id="fecha-exp" />
-                        </div>
+                    <div class="offstate-datos opcion-b">
+                        <label for="activar">Quiere dejarnos sus datos de la tarjeta</label><br>
+                        <label for="tarjeta">Tarjeta: </label>
+                        <input type="text" id="tarjeta" /><br>
+                        <label for="fecha-exp">Fecha Expiración: </label>
+                        <input type="text" id="fecha-exp" />
+                    </div>
 
-                        <input type="submit" value="Enviar los datos" />
-                    </fieldset>
-                </form>
+                    <input type="submit" value="Enviar los datos" />
+                </fieldset>
+            </form>
         </div>
     </div>
     <script src="Ernesto_fatala.js"></script>
