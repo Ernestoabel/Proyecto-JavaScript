@@ -9,7 +9,10 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
 </head>
+
 
 <body>
     <div class="container ">
@@ -99,21 +102,50 @@
                                 <button class="eliminar" data-producto-id="1">Eliminar</button>
                             </li>
                         </ul>
+
                     </div>
                 </div>
             </div>
         </div>
         <hr>
+
         <div class="row justify-content-center">
             <div class="col-md-12 text-center">
-                <button onclick="menuPrincipal('2')" type="button" class="btn btn-danger" id="boton">Compras</button>
-            </div>
-        </div>
-        <hr>
-        <div class="row justify-content-center">
-            <div class="col-md-12 text-center">
-                <button onclick="menuPrincipal('3')" type="button" class="btn btn-danger"
-                    id="boton">Modificacion</button>
+                <div id="datosFactura" class="hidden">
+                    <form action="#" method="post" id="miFormulario">
+                        <fieldset>
+                            <legend>Información del usuario</legend>
+
+                            <div class="allrequired">
+                                <label for="nombre">Nombre: </label>
+                                <input type="text" class="validate-alpha required" id="nombre" /><br>
+                                <label for="apellido">Apellido: </label>
+                                <input type="text" class="validate-alpha required" id="apellido" /><br>
+                                <label for="email">Email: </label>
+                                <input type="text" id="email" class="validate-email"><br>
+                            </div>
+
+                            <label for="pago">Indique como paga </label>
+                            <br>
+                            <input id="activar" type="checkbox" />
+                            <label for="activar">Efectivo</label><br>
+                            <input id="activar" type="checkbox" class="switch-datos" />
+                            <label for="activar">Tarjeta</label><br>
+
+                            <div class="offstate-datos">
+                                <label for="tarjeta">Tarjeta: </label>
+                                <input type="text" class="validate-integer" id="tarjeta" /><br>
+                                <label for="fecha-exp">Fecha Expiración: </label>
+                                <input type="text" class="validate-date required" id="fecha-exp" />
+                            </div>
+
+                            <input type="submit" value="Enviar los datos" />
+                        </fieldset>
+                    </form>
+                    <div id="botonVaciarCarrito" class="hidden">
+                        <button id="vaciarCarritoBtn">Terminar Compra</button>
+                    </div>
+                </div>
             </div>
         </div>
         <hr>
@@ -127,20 +159,84 @@
         <hr>
         <div class="row justify-content-center">
             <div class="col-md-12 text-center">
-                <button onclick="menuPrincipal('4')" type="button" class="btn btn-danger" id="boton">Salir</button>
+                <button id="btnModificarLista">Modificar lista</button>
+                <div id="contenedorBotones" class="hidden"></div>
+                <div id="contenedorFormulario" class="hidden"></div>
+                <div id="mensaje" class=""></div>
             </div>
         </div>
+    </div>
+    <hr>
+    <div class="row justify-content-center">
+        <div class="col-md-12 text-center">
+            <button onclick="" type="button" class="btn btn-danger" id="boton">Salir</button>
+        </div>
+    </div>
     </div>
     <div class="row justify-content-center">
         <div class="col-md-12 text-center">
             <h2>Último producto cliqueado en la sesion anterior</h2>
             <p id="ultimoProducto">
-                <div id="miDiv" ></div>
-                <span id="nombreUltimoProducto"></span>
+            <div id="miDiv"></div>
+            <span id="nombreUltimoProducto"></span>
             </p>
         </div>
     </div>
+    <div class="row justify-content-center">
+        <div class="col-md-12 text-center">
+            <form action="#" method="post">
+                <div id="contenedorFormulario"></div>
+                <form action="#" method="post" class="wf-form">
+                    <fieldset>
+                        <legend>Información de la factura</legend>
+
+                        <label for="inscripcion">Inscripcion:</label>
+                        <select id="inscripcion" class="switch-datos">
+                            <option value="">Seleciona una opción...</option>
+                            <option value="1">Consumidor final</option>
+                            <option value="2">Monotributo</option>
+                            <option value="3">Responsable inscripto</option>
+                            <option value="4">Excento</option>
+                        </select><br />
+
+                        <div class="offstate-datos opcion-2 opcion-3 opcion-4">
+                            <label for="nombre">Razon social: </label>
+                            <input type="text" id="razon" /><br>
+                            <label for="apellido">Direccion: </label>
+                            <input type="text" id="direccion" /><br>
+                            <label for="apellido">Cuit: </label>
+                            <input type="text" id="cuit" /><br>
+                        </div>
+
+                        <label for="pago">Seleccion:</label>
+                        <select id="pago" class="switch-datos">
+                            <option value="">Modo de pago</option>
+                            <option value="a">Efectivo</option>
+                            <option value="b">Tarjeta</option>
+                        </select><br />
+
+                        <div class="offstate-datos opcion-b">
+                            <label for="activar">Quiere dejarnos sus datos de la tarjeta</label><br>
+                            <label for="tarjeta">Tarjeta: </label>
+                            <input type="text" id="tarjeta" /><br>
+                            <label for="fecha-exp">Fecha Expiración: </label>
+                            <input type="text" id="fecha-exp" />
+                        </div>
+
+                        <input type="submit" value="Enviar los datos" />
+                    </fieldset>
+                </form>
+        </div>
+    </div>
     <script src="Ernesto_fatala.js"></script>
+    <script type="text/javascript" src="http://lineadecodigo.com/js/wforms/wforms.js"></script>
+    <script type="text/javascript">
+        wFORMS.behaviors['validation'].errMsg_alpha = "Solo se pueden utilizar caracteres alfabéticos";
+        wFORMS.behaviors['validation'].errMsg_integer = "El texto introducido tiene que ser un número entero";
+        wFORMS.behaviors['validation'].errMsg_date = "El formato de la fecha insertada no es válido [dd-mm-aaaa]";
+        wFORMS.behaviors['validation'].errMsg_email = "El email introducido no tiene un formato valido";
+        wFORMS.behaviors['validation'].errMsg_notification = "%% error(s) detectado(s). El formulario no se enviará.\nPor favor, chequea la información suministrada.";
+    </script>
 </body>
 
 </html>
