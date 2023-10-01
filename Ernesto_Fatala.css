@@ -3,7 +3,13 @@
 }
 
 #btnVentas {
-    background-color: red;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #a61010;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
 }
 
 #ultimoProducto {
@@ -47,9 +53,17 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #0701011d;
+
 }
 
 #listaProductos li {
+    list-style-type: none;
     font-weight: bold;
     color: #333;
     margin: 5px 0;
@@ -60,5 +74,68 @@
     height: 150px;
 }
 
-.onstate-datos { display: block; }
-.offstate-datos { display: none; }
+.onstate-datos {
+    display: block;
+}
+
+.offstate-datos {
+    display: none;
+}
+
+#mostrarProductosBtn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #0d711b;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#btnModificarLista {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#btnModificarLista:hover {
+    background-color: #2980b9;
+}
+
+.botonEstilo {
+    padding: 10px 20px;
+    font-size: 12px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 15px;
+    margin-right: 12px;
+}
+
+#form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 15px;
+    border-color: rgb(7, 15, 77);
+    font-weight: bold;
+}
+
+#form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 15px;
+    border-color: rgb(7, 15, 77);
+    font-weight: bold;
+  }
